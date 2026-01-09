@@ -11,7 +11,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: ,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Sign Up.",
+            style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
     );
   }
 }
