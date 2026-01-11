@@ -45,5 +45,8 @@ app.*.map.json
 /android/app/release
 
 # secrets
-/lib/core/secrets
-/lib/core/secrets/*
+/lib/core/env-secrets
+/lib/core/env-secrets/*
+./lib/core/env-secrets
+./lib/core/env-secrets/*
+
