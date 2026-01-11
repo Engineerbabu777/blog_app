@@ -1,9 +1,12 @@
 import 'package:blog_app/core/theme/app_pallete.dart';
+import 'package:blog_app/features/auth/presentation/pages/signin_page.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_field.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_gradient_button.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
+  static route() =>
+      MaterialPageRoute(builder: (context) => const SignUpScreen());
   const SignUpScreen({super.key});
 
   @override
@@ -61,20 +64,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
               AuthGradientButton(text: "Sign Up", onTap: () {}),
               const SizedBox(height: 10),
 
-              RichText(
-                text: TextSpan(
-                  text: "Already have an account? ",
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context, SignInPage.route());
+                },
+                child: RichText(
+                  text: TextSpan(
+                    text: "Already have an account? ",
 
-                  style: Theme.of(context).textTheme.titleMedium,
-                  children: [
-                    TextSpan(
-                      text: "Sign In",
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: AppPallete.gradient2,
-                        fontWeight: FontWeight.bold,
+                    style: Theme.of(context).textTheme.titleMedium,
+                    children: [
+                      TextSpan(
+                        text: "Sign In",
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: AppPallete.gradient2,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
