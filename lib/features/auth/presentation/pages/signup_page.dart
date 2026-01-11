@@ -63,7 +63,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               RichText(
                 text: TextSpan(
-                  text: "Don't have an account? ",
+                  text: "Already have an account? ",
+
                   style: Theme.of(context).textTheme.titleMedium,
                   children: [
                     TextSpan(
