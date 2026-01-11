@@ -40,4 +40,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw ServerException(e.toString());
     }
   }
+  
+  @override
+  Future<String> signInWithEmailPassword({required String email, required String password}) {
+    // TODO: implement signInWithEmailPassword
+    throw UnimplementedError();
+  }
 }
