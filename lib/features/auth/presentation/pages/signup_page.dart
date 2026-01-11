@@ -11,7 +11,20 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    nameController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,13 +44,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 30),
 
               // INPUTS!
-              AuthField(hintText: "Name"),
+              AuthField(hintText: "Name", controller: nameController),
               const SizedBox(height: 10),
 
-              AuthField(hintText: "Email"),
+              AuthField(hintText: "Email", controller: emailController),
               const SizedBox(height: 10),
 
-              AuthField(hintText: "Password"),
+              AuthField(
+                hintText: "Password",
+                controller: passwordController,
+                obscureText: true,
+              ),
               const SizedBox(height: 20),
 
               // BUTTON!
