@@ -1,3 +1,4 @@
+import 'package:blog_app/core/common/widgets/loader.dart';
 import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/pages/signin_page.dart';
@@ -39,13 +40,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         padding: const EdgeInsets.all(15.0),
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            // TODO: implement listener
+            if(state is AuthFailure){
+              
+            }
           },
           builder: (context, state) {
-            if(state is AuthLoading){
-
+            if (state is AuthLoading) {
+              return const CustomLoader();
             }
-            
+
             return Form(
               key: formKey,
               child: Column(
