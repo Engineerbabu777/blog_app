@@ -36,8 +36,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw ServerException('User is null!');
       }
 
-      return UserModels.fromJson(response.user!.toJson());
+      final userJson = response.user!.toJson();
+      print('User JSON: $userJson'); // Debugging line
+
+      return UserModels.fromJson(userJson);
     } catch (e) {
+      print('Error during sign up: $e'); // Debugging line
       throw ServerException(e.toString());
     }
   }

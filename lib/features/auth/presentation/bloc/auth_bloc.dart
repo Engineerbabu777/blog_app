@@ -7,7 +7,6 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  
   final UserSignUp _userSignUp;
 
   AuthBloc({required UserSignUp userSignUp})
@@ -24,7 +23,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       res.fold(
-        (l) => emit(AuthFailure(message: l.message!)),
+        (l) => emit(
+          AuthFailure(message: l.message ?? "An unknown error occurred"),
+        ),
         (r) => emit(AuthSuccess(r)),
       );
     });

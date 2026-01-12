@@ -33,7 +33,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return Right(user);
     } on ServerException catch (e) {
-      return Left(Failure(e.message));
+      return Left(
+        Failure(e.message.isNotEmpty ? e.message : "An unknown error occurred"),
+      );
     }
   }
 }
