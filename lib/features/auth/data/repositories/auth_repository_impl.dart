@@ -4,6 +4,7 @@ import 'package:blog_app/features/auth/data/datasources/auth_remote_data_source.
 import 'package:blog_app/features/auth/domain/entities/user_entity.dart';
 import 'package:blog_app/features/auth/domain/respository/auth_repository.dart';
 import 'package:fpdart/src/either.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
@@ -40,6 +41,10 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await fn();
 
       return Right(user);
+    } on sb.AuthException catch (e) {
+      return Left(
+        Failure(e.message.isNotEmpty ? e.message : "An unknown error occurred"),
+      );
     } on ServerException catch (e) {
       return Left(
         Failure(e.message.isNotEmpty ? e.message : "An unknown error occurred"),
