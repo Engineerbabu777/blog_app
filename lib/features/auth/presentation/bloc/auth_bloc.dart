@@ -42,6 +42,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         UserSignInParams(email: event.email, password: event.password),
       );
 
+      print("response $res");
+
       res.fold(
         (l) => emit(
           AuthFailure(message: l.message ?? "An unknown error occurred"),
