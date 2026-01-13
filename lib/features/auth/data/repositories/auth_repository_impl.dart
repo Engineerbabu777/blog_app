@@ -13,33 +13,31 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, UserEntity>> signInWithEmailPassword({
     required String email,
     required String password,
-  }) async {
-    try {
-      final user = await authRemoteDataSource.signInWithEmailPassword(
-        email: email,
-        password: password,
-      );
-
-      return Right(user);
-    } on ServerException catch (e) {
-      return Left(
-        Failure(e.message.isNotEmpty ? e.message : "An unknown error occurred"),
-      );
-    }
-  }
+  }) async => _getUser(
+    () => authRemoteDataSource.signInWithEmailPassword(
+      email: email,
+      password: password,
+    ),
+  );
 
   @override
   Future<Either<Failure, UserEntity>> signUpWithEmailPassword({
     required String email,
     required String password,
     required String name,
-  }) async {
+  }) async => _getUser(
+    () => authRemoteDataSource.signUpWithEmailPassword(
+      email: email,
+      password: password,
+      name: name,
+    ),
+  );
+
+  Future<Either<Failure, UserEntity>> _getUser(
+    Future<UserEntity> Function() fn,
+  ) async {
     try {
-      final user = await authRemoteDataSource.signUpWithEmailPassword(
-        email: email,
-        password: password,
-        name: name,
-      );
+      final user = await fn();
 
       return Right(user);
     } on ServerException catch (e) {
