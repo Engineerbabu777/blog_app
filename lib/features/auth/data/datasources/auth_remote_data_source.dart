@@ -50,8 +50,24 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<UserModels> signInWithEmailPassword({
     required String email,
     required String password,
-  }) {
-    // TODO: implement signInWithEmailPassword
-    throw UnimplementedError();
+  }) async {
+    try {
+      final response = await supabaseClient.auth.signInWithPassword(
+        password: password,
+        email: email,
+      );
+
+      if (response.user == null) {
+        throw ServerException('Invalid Credentials!');
+      }
+
+      final userJson = response.user!.toJson();
+      print('User JSON: $userJson'); // Debugging line
+
+      return UserModels.fromJson(userJson);
+    } catch (e) {
+      print('Error during sign in: $e'); // Debugging line
+      throw ServerException(e.toString());
+    }
   }
 }
