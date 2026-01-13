@@ -12,6 +12,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({required UserSignUp userSignUp})
     : _userSignUp = userSignUp,
       super(AuthInitial()) {
+    // EVENT!
     on<AuthSignUp>((event, emit) async {
       emit(AuthLoading());
       final res = await _userSignUp(
@@ -29,5 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (r) => emit(AuthSuccess(r)),
       );
     });
+
+    // EVENT!
   }
 }
