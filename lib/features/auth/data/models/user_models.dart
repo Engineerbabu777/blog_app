@@ -8,4 +8,12 @@ class UserModels extends UserEntity {
     name: json["name"] ?? "",
     email: json["email"] ?? "",
   );
+
+  UserModels copyWith({String? id, String? name, String? email}) {
+    return UserModels(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+    );
+  }
 }
