@@ -17,8 +17,7 @@ abstract interface class AuthRemoteDataSource {
   });
 
   Future<UserModels?> getCurrentUserData();
-  
- }
+}
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final SupabaseClient supabaseClient;
@@ -78,13 +77,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw ServerException(e.toString());
     }
   }
-  
+
   @override
   Future<UserModels?> getCurrentUserData() async {
     try {
-      supabaseClient.from('profiles').select().eq('id', currentUserSession!.user.id);
-    } catch (e){
+      if (currentUserSession != null) {
+        final user = await supabaseClient
+            .from('profiles')
+            .select()
+            .eq('id', currentUserSession!.user.id);
+
+        return UserModels.fromJson(user.first["data"]);
+      }
+    } catch (e) {
       throw ServerException(e.toString());
     }
+    return null;
   }
 }
