@@ -42,7 +42,17 @@ class _MyAppState extends State<MyApp> {
       title: 'Blog App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkThemeMode,
-      home: const SignInPage(),
+      home: BlocSelector<AppUserCubit, AppUserState, bool>(
+        selector: (state) {
+          return state is AppUserLoggedIn;
+        },
+        builder: (context, isUserLoggedIn) {
+          if (isUserLoggedIn) {
+            return Scaffold(body: Center(child: Text('body')));
+          }
+          return const SignInPage();
+        },
+      ),
     );
   }
 }
