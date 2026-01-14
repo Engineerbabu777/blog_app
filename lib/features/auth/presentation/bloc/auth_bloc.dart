@@ -63,6 +63,7 @@
 //   }
 // }
 
+import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/core/common/entities/user_entity.dart';
 import 'package:blog_app/features/auth/domain/use-cases/current_user.dart';
 import 'package:blog_app/features/auth/domain/use-cases/user_sign_in.dart';
@@ -77,14 +78,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserSignUp _userSignUp;
   final UserSignIn _userSignIn;
   final CurrentUser _userCurrent;
+  final AppUserCubit _appUserCubit;
 
   AuthBloc({
     required UserSignUp userSignUp,
     required UserSignIn userSignIn,
     required CurrentUser currentUser,
+    required AppUserCubit appUserCubit,
   }) : _userSignUp = userSignUp,
        _userSignIn = userSignIn,
        _userCurrent = currentUser,
+       _appUserCubit = appUserCubit,
 
        super(AuthInitial()) {
     on<AuthSignUp>(_onAuthSignUp);
@@ -105,7 +109,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     res.fold(
       (l) =>
           emit(AuthFailure(message: l.message ?? "An unknown error occurred")),
-      (r) => emit(AuthSuccess(r)),
+      (r) => _emitAuthSuccess(r, emit),
     );
   }
 
@@ -121,7 +125,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     res.fold(
       (l) =>
           emit(AuthFailure(message: l.message ?? "An unknown error occurred")),
-      (r) => emit(AuthSuccess(r)),
+      (r) => _emitAuthSuccess(r, emit),
     );
   }
 
@@ -140,9 +144,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthFailure(message: "User Not Logged In!"));
         } else {
           print("current user ${r.email}");
-          emit(AuthSuccess(r));
+
+          _emitAuthSuccess(r, emit);
         }
       },
     );
+  }
+
+  void _emitAuthSuccess(UserEntity r, Emitter<AuthState> emit) {
+    _appUserCubit.updateUser(r);
+    emit(AuthSuccess(r));
   }
 }
