@@ -125,7 +125,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  void _onAuthIsUserLoggedIn(CurrentUser event, Emitter<AuthState> emit) async {
+  void _onAuthIsUserLoggedIn(
+    AuthIsUserLoggedIn event,
+    Emitter<AuthState> emit,
+  ) async {
     emit(AuthLoading());
     final res = await _userCurrent(NoParams());
 
