@@ -63,7 +63,7 @@
 //   }
 // }
 
-import 'package:blog_app/features/auth/domain/entities/user_entity.dart';
+import 'package:blog_app/core/common/entities/user_entity.dart';
 import 'package:blog_app/features/auth/domain/use-cases/current_user.dart';
 import 'package:blog_app/features/auth/domain/use-cases/user_sign_in.dart';
 import 'package:blog_app/features/auth/domain/use-cases/user_sign_up.dart';
