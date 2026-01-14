@@ -25,13 +25,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
-    serviceLocator.get<AuthBloc>().add(AuthIsUserLoggedIn());
+    context.read<AuthBloc>().add(AuthIsUserLoggedIn());
   }
-  
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
