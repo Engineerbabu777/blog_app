@@ -139,6 +139,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (r == null) {
           emit(AuthFailure(message: "User Not Logged In!"));
         } else {
+          print("current user ${r.email}");
           emit(AuthSuccess(r));
         }
       },
