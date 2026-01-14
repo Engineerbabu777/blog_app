@@ -11,6 +11,27 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this.authRemoteDataSource);
 
   @override
+  Future<Either<Failure, UserEntity?>> getCurrentUser() async {
+    try {
+      final userData = await authRemoteDataSource.getCurrentUserData();
+
+      if (userData == null) {
+        return Left(Failure("User not logged in!"));
+      }
+
+      return Right(userData);
+    } on sb.AuthException catch (e) {
+      return Left(
+        Failure(e.message.isNotEmpty ? e.message : "An unknown error occurred"),
+      );
+    } on ServerException catch (e) {
+      return Left(
+        Failure(e.message.isNotEmpty ? e.message : "An unknown error occurred"),
+      );
+    }
+  }
+
+  @override
   Future<Either<Failure, UserEntity>> signInWithEmailPassword({
     required String email,
     required String password,
