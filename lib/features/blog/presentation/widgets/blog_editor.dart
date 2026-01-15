@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 
 class BlogEditor extends StatelessWidget {
-  const BlogEditor({super.key});
+  final TextEditingController controller;
+  final String hintText;
+
+  const BlogEditor({
+    super.key,
+    required this.controller,
+    required this.hintText,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(hintText: hintText),
+    );
   }
 }
