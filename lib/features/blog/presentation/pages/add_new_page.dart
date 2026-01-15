@@ -14,10 +14,12 @@ class AddNewBlog extends StatefulWidget {
 
 class _AddNewBlogState extends State<AddNewBlog> {
   final titleController = TextEditingController();
+  final contentController = TextEditingController();
 
   @override
   void dispose() {
     titleController.dispose();
+    contentController.dispose();
     super.dispose();
   }
 
@@ -28,57 +30,63 @@ class _AddNewBlogState extends State<AddNewBlog> {
         title: Text('Add New Blog'),
         actions: [IconButton(onPressed: () {}, icon: Icon(Icons.done_rounded))],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            DottedBorder(
-              options: RoundedRectDottedBorderOptions(
-                color: AppPallete.borderColor,
-                dashPattern: [10, 4],
-                strokeWidth: 2,
-                radius: Radius.circular(10),
-              ),
-              child: SizedBox(
-                height: 150,
-                width: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // ICON!
-                    Icon(Icons.folder_open, size: 40),
-                    // SPACE!
-                    SizedBox(height: 15),
-                    // TEXT!
-                    Text('Select your image', style: TextStyle(fontSize: 15)),
-                  ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              DottedBorder(
+                options: RoundedRectDottedBorderOptions(
+                  color: AppPallete.borderColor,
+                  dashPattern: [10, 4],
+                  strokeWidth: 2,
+                  radius: Radius.circular(10),
+                ),
+                child: SizedBox(
+                  height: 150,
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // ICON!
+                      Icon(Icons.folder_open, size: 40),
+                      // SPACE!
+                      SizedBox(height: 15),
+                      // TEXT!
+                      Text('Select your image', style: TextStyle(fontSize: 15)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-
-            SizedBox(height: 15),
-
-            // CHIPS!
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: ['Technology', 'Bussiness', 'Programming', 'Cricket']
-                    .map(
-                      (e) => Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Chip(
-                          label: Text(e),
-                          side: const BorderSide(color: AppPallete.borderColor),
+        
+              SizedBox(height: 20),
+        
+              // CHIPS!
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: ['Technology', 'Bussiness', 'Programming', 'Cricket']
+                      .map(
+                        (e) => Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Chip(
+                            label: Text(e),
+                            side: const BorderSide(color: AppPallete.borderColor),
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
+                      )
+                      .toList(),
+                ),
               ),
-            ),
-
-            // INPUTS!
-            BlogEditor(controller: titleController, hintText: 'Blog title'),
-          ],
+        
+              // INPUTS!
+              BlogEditor(controller: titleController, hintText: 'Blog title'),
+        
+              SizedBox(height: 10),
+        
+              BlogEditor(controller: titleController, hintText: 'Blog Content'),
+            ],
+          ),
         ),
       ),
     );

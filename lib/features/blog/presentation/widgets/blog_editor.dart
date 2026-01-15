@@ -15,6 +15,7 @@ class BlogEditor extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(hintText: hintText),
+      maxLines: null,
     );
   }
 }
