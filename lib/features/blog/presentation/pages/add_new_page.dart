@@ -15,6 +15,7 @@ class AddNewBlog extends StatefulWidget {
 class _AddNewBlogState extends State<AddNewBlog> {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
+  List<String> selectedTopics = [];
 
   @override
   void dispose() {
@@ -58,32 +59,49 @@ class _AddNewBlogState extends State<AddNewBlog> {
                   ),
                 ),
               ),
-        
+
               SizedBox(height: 20),
-        
+
               // CHIPS!
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: ['Technology', 'Bussiness', 'Programming', 'Cricket']
-                      .map(
-                        (e) => Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Chip(
-                            label: Text(e),
-                            side: const BorderSide(color: AppPallete.borderColor),
-                          ),
-                        ),
-                      )
-                      .toList(),
+                  children:
+                      ['Technology', 'Bussiness', 'Programming', 'Cricket']
+                          .map(
+                            (e) => Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  selectedTopics.contains(e)
+                                      ? selectedTopics.remove(e)
+                                      : selectedTopics.add(e);
+
+                                  setState(() {});
+                                },
+                                child: Chip(
+                                  label: Text(e),
+                                  side: const BorderSide(
+                                    color: AppPallete.borderColor,
+                                  ),
+                                  color: selectedTopics.contains(e)
+                                      ? const WidgetStatePropertyAll(
+                                          AppPallete.gradient1,
+                                        )
+                                      : null,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                 ),
               ),
-        
+
               // INPUTS!
               BlogEditor(controller: titleController, hintText: 'Blog title'),
-        
+
               SizedBox(height: 10),
-        
+
               BlogEditor(controller: titleController, hintText: 'Blog Content'),
             ],
           ),
