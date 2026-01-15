@@ -1,3 +1,4 @@
+import 'package:blog_app/features/blog/presentation/pages/add_new_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,12 @@ class BlogPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Blog Page'),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.add_circled)),
+          IconButton(
+            onPressed: () {
+              Navigator.push(context, AddNewBlog.route());
+            },
+            icon: Icon(CupertinoIcons.add_circled),
+          ),
         ],
       ),
     );
