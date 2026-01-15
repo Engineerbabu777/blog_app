@@ -1,4 +1,5 @@
 import 'package:blog_app/core/theme/app_pallete.dart';
+import 'package:blog_app/features/blog/presentation/widgets/blog_editor.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,14 @@ class AddNewBlog extends StatefulWidget {
 }
 
 class _AddNewBlogState extends State<AddNewBlog> {
+  final titleController = TextEditingController();
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +75,9 @@ class _AddNewBlogState extends State<AddNewBlog> {
                     .toList(),
               ),
             ),
+
+            // INPUTS!
+            BlogEditor(controller: titleController, hintText: 'Blog title'),
           ],
         ),
       ),
