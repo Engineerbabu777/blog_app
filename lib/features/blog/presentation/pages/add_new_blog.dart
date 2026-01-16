@@ -192,7 +192,6 @@ class _AddNewBlogState extends State<AddNewBlog> {
                     BlogEditor(
                       controller: contentController,
                       hintText: 'Blog Content',
-
                     ),
                   ],
                 ),

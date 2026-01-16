@@ -18,7 +18,7 @@ class UploadBlogUseCase implements UseCase<BlogEntity, UploadBlogParams> {
       content: params.content,
       title: params.content,
       image: params.image,
-      posterId: params.content,
+      posterId: params.posterId,
       topics: params.topics,
     );
   }
