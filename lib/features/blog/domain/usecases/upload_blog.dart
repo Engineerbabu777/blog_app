@@ -25,7 +25,6 @@ class UploadBlogUseCase implements UseCase<BlogEntity, UploadBlogParams> {
 }
 
 class UploadBlogParams {
-  final String id;
   final String posterId;
   final String title;
   final String content;
@@ -33,7 +32,6 @@ class UploadBlogParams {
   final List<String> topics;
 
   UploadBlogParams({
-    required this.id,
     required this.posterId,
     required this.title,
     required this.content,
