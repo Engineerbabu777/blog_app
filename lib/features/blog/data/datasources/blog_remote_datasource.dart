@@ -9,10 +9,13 @@ class BlogRemoteDatasourceImpl implements BlogRemoteDatasource {
 
   final SupabaseClient supabaseClient;
 
+  BlogRemoteDatasourceImpl({required this.supabaseClient});
+
   @override
-  Future<BlogModel> uploadBlog(BlogModel blog) {
+  Future<BlogModel> uploadBlog(BlogModel blog) async {
    try {
-    supabaseClient.from("blogs").insert(values)
+    final blogData = await supabaseClient.from("blogs").insert(blog.toJson());
+    return BlogModel.fromJson(blogData.first);
 
    } catch(e) {
 
