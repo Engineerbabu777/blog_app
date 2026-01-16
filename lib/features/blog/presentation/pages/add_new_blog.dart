@@ -36,6 +36,25 @@ class _AddNewBlogState extends State<AddNewBlog> {
     }
   }
 
+  void uploadBlog() {
+    if (formKey.currentState!.validate() &&
+        selectedTopics.isNotEmpty &&
+        image != null) {
+      final posterId =
+          (context.read<AppUserCubit>().state as AppUserLoggedIn).user.id;
+
+      context.read<BlogBloc>().add(
+        BlogUploadEvent(
+          posterId: posterId,
+          title: titleController.text.trim(),
+          content: titleController.text.trim(),
+          image: image!,
+          topics: selectedTopics,
+        ),
+      );
+    }
+  }
+
   @override
   void dispose() {
     titleController.dispose();
@@ -49,29 +68,7 @@ class _AddNewBlogState extends State<AddNewBlog> {
       appBar: AppBar(
         title: Text('Add New Blog'),
         actions: [
-          IconButton(
-            onPressed: () {
-              if (formKey.currentState!.validate() &&
-                  selectedTopics.isNotEmpty &&
-                  image != null) {
-                final posterId =
-                    (context.read<AppUserCubit>().state as AppUserLoggedIn)
-                        .user
-                        .id;
-
-                context.read<BlogBloc>().add(
-                  BlogUploadEvent(
-                    posterId: posterId,
-                    title: titleController.text.trim(),
-                    content: titleController.text.trim(),
-                    image: image!,
-                    topics: selectedTopics,
-                  ),
-                );
-              }
-            },
-            icon: Icon(Icons.done_rounded),
-          ),
+          IconButton(onPressed: uploadBlog, icon: Icon(Icons.done_rounded)),
         ],
       ),
       body: SingleChildScrollView(
