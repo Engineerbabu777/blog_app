@@ -23,9 +23,13 @@ class BlogRemoteDatasourceImpl implements BlogRemoteDatasource {
       final json = blog.toJson();
       print('Obect: $json');
 
-      final blogData = await supabaseClient.from("blogs").insert(blog.toJson());
+      final blogData = await supabaseClient
+          .from("blogs")
+          .insert(blog.toJson())
+          .select()
+          .single();
 
-      return BlogModel.fromJson(blogData.first);
+      return BlogModel.fromJson(blogData);
     } catch (e) {
       print('Error during blog creation: $e'); // Debugging line
       throw ServerException(e.toString());
