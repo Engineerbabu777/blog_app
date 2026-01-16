@@ -21,6 +21,8 @@ class _AddNewBlogState extends State<AddNewBlog> {
   List<String> selectedTopics = [];
   File? image;
 
+  final formKey = GlobalKey<FormState>();
+
   void selectImage() async {
     final pickedImage = await pickImage();
 
@@ -43,99 +45,109 @@ class _AddNewBlogState extends State<AddNewBlog> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add New Blog'),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.done_rounded))],
+        actions: [IconButton(onPressed: () {
+          if(formKey.currentState!.validate()){
+             
+          }
+        }, icon: Icon(Icons.done_rounded))],
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              image != null
-                  ? GestureDetector(
-                    onTap: selectImage,
-                    child: SizedBox(
-                        height: 150,
-                        width: double.infinity,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.file(image!, fit: BoxFit.cover),
-                        ),
-                      ),
-                  )
-                  : GestureDetector(
-                      onTap: selectImage,
-                      child: DottedBorder(
-                        options: RoundedRectDottedBorderOptions(
-                          color: AppPallete.borderColor,
-                          dashPattern: [10, 4],
-                          strokeWidth: 2,
-                          radius: Radius.circular(10),
-                        ),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                image != null
+                    ? GestureDetector(
+                        onTap: selectImage,
                         child: SizedBox(
                           height: 150,
                           width: double.infinity,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // ICON!
-                              Icon(Icons.folder_open, size: 40),
-                              // SPACE!
-                              SizedBox(height: 15),
-                              // TEXT!
-                              Text(
-                                'Select your image',
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ],
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.file(image!, fit: BoxFit.cover),
+                          ),
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: selectImage,
+                        child: DottedBorder(
+                          options: RoundedRectDottedBorderOptions(
+                            color: AppPallete.borderColor,
+                            dashPattern: [10, 4],
+                            strokeWidth: 2,
+                            radius: Radius.circular(10),
+                          ),
+                          child: SizedBox(
+                            height: 150,
+                            width: double.infinity,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // ICON!
+                                Icon(Icons.folder_open, size: 40),
+                                // SPACE!
+                                SizedBox(height: 15),
+                                // TEXT!
+                                Text(
+                                  'Select your image',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-              SizedBox(height: 20),
+                SizedBox(height: 20),
 
-              // CHIPS!
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children:
-                      ['Technology', 'Bussiness', 'Programming', 'Cricket']
-                          .map(
-                            (e) => Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  selectedTopics.contains(e)
-                                      ? selectedTopics.remove(e)
-                                      : selectedTopics.add(e);
+                // CHIPS!
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children:
+                        ['Technology', 'Bussiness', 'Programming', 'Cricket']
+                            .map(
+                              (e) => Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    selectedTopics.contains(e)
+                                        ? selectedTopics.remove(e)
+                                        : selectedTopics.add(e);
 
-                                  setState(() {});
-                                },
-                                child: Chip(
-                                  label: Text(e),
-                                  side: const BorderSide(
-                                    color: AppPallete.borderColor,
+                                    setState(() {});
+                                  },
+                                  child: Chip(
+                                    label: Text(e),
+                                    side: const BorderSide(
+                                      color: AppPallete.borderColor,
+                                    ),
+                                    color: selectedTopics.contains(e)
+                                        ? const WidgetStatePropertyAll(
+                                            AppPallete.gradient1,
+                                          )
+                                        : null,
                                   ),
-                                  color: selectedTopics.contains(e)
-                                      ? const WidgetStatePropertyAll(
-                                          AppPallete.gradient1,
-                                        )
-                                      : null,
                                 ),
                               ),
-                            ),
-                          )
-                          .toList(),
+                            )
+                            .toList(),
+                  ),
                 ),
-              ),
 
-              // INPUTS!
-              BlogEditor(controller: titleController, hintText: 'Blog title'),
+                // INPUTS!
+                BlogEditor(controller: titleController, hintText: 'Blog title'),
 
-              SizedBox(height: 10),
+                SizedBox(height: 10),
 
-              BlogEditor(controller: titleController, hintText: 'Blog Content'),
-            ],
+                BlogEditor(
+                  controller: titleController,
+                  hintText: 'Blog Content',
+                ),
+              ],
+            ),
           ),
         ),
       ),
