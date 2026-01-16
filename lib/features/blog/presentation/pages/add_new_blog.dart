@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:blog_app/core/theme/app_pallete.dart';
+import 'package:blog_app/core/utils/pick_image.dart';
 import 'package:blog_app/features/blog/presentation/widgets/blog_editor.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +19,17 @@ class _AddNewBlogState extends State<AddNewBlog> {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
   List<String> selectedTopics = [];
+  File? image;
+
+  void selectImage() async {
+    final pickedImage = await pickImage();
+
+    if (pickedImage != null) {
+      setState(() {
+        image = pickedImage;
+      });
+    }
+  }
 
   @override
   void dispose() {
