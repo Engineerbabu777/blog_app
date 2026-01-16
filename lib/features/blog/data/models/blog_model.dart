@@ -30,4 +30,30 @@ class BlogModel extends BlogEntity {
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'posterId': posterId,
+      'title': title,
+      'content': content,
+      'imageUrl': imageUrl,
+      'topics': topics,
+      'updated_at': updatedAt.toIso8601String(),
+    };
+  }
+
+  factory BlogModel.fromMap(Map<String, dynamic> map) {
+    return BlogModel(
+      id: map['id'] as String,
+      posterId: map['posterId'] as String,
+      title: map['title'] as String,
+      content: map['content'] as String,
+      imageUrl: map['imageUrl'] as String,
+      topics: List<String>.from(map['topics'] ?? []),
+      updatedAt: map['updated_at'] != null
+          ? DateTime.parse(map['updated_at'])
+          : DateTime.now(),
+    );
+  }
 }

@@ -12,9 +12,10 @@ class BlogRemoteDatasourceImpl implements BlogRemoteDatasource {
   @override
   Future<BlogModel> uploadBlog(BlogModel blog) {
    try {
+    supabaseClient.from("blogs").insert(values)
 
    } catch(e) {
-    
+
    }
   }
   
