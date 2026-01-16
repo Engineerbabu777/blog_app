@@ -17,7 +17,7 @@ class BlogEditor extends StatelessWidget {
       decoration: InputDecoration(hintText: hintText),
       maxLines: null,
       validator: (value) {
-        if (value!.isNotEmpty) {
+        if (value!.isEmpty) {
           return '$hintText is missing';
         }
         return null;

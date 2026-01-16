@@ -50,7 +50,7 @@ class _AddNewBlogState extends State<AddNewBlog> {
         BlogUploadEvent(
           posterId: posterId,
           title: titleController.text.trim(),
-          content: titleController.text.trim(),
+          content: contentController.text.trim(),
           image: image!,
           topics: selectedTopics,
         ),
@@ -190,9 +190,9 @@ class _AddNewBlogState extends State<AddNewBlog> {
                     SizedBox(height: 10),
 
                     BlogEditor(
-                      controller: titleController,
+                      controller: contentController,
                       hintText: 'Blog Content',
-                      
+
                     ),
                   ],
                 ),
