@@ -50,29 +50,47 @@ class _AddNewBlogState extends State<AddNewBlog> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              DottedBorder(
-                options: RoundedRectDottedBorderOptions(
-                  color: AppPallete.borderColor,
-                  dashPattern: [10, 4],
-                  strokeWidth: 2,
-                  radius: Radius.circular(10),
-                ),
-                child: SizedBox(
-                  height: 150,
-                  width: double.infinity,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // ICON!
-                      Icon(Icons.folder_open, size: 40),
-                      // SPACE!
-                      SizedBox(height: 15),
-                      // TEXT!
-                      Text('Select your image', style: TextStyle(fontSize: 15)),
-                    ],
-                  ),
-                ),
-              ),
+              image != null
+                  ? GestureDetector(
+                    onTap: selectImage,
+                    child: SizedBox(
+                        height: 150,
+                        width: double.infinity,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.file(image!, fit: BoxFit.cover),
+                        ),
+                      ),
+                  )
+                  : GestureDetector(
+                      onTap: selectImage,
+                      child: DottedBorder(
+                        options: RoundedRectDottedBorderOptions(
+                          color: AppPallete.borderColor,
+                          dashPattern: [10, 4],
+                          strokeWidth: 2,
+                          radius: Radius.circular(10),
+                        ),
+                        child: SizedBox(
+                          height: 150,
+                          width: double.infinity,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // ICON!
+                              Icon(Icons.folder_open, size: 40),
+                              // SPACE!
+                              SizedBox(height: 15),
+                              // TEXT!
+                              Text(
+                                'Select your image',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
 
               SizedBox(height: 20),
 
