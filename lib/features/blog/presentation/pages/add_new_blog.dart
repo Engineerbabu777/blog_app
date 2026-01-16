@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:blog_app/core/common/widgets/loader.dart';
 import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/core/utils/pick_image.dart';
+import 'package:blog_app/core/utils/show_snackbar.dart';
 import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
+import 'package:blog_app/features/blog/presentation/pages/blog_page.dart';
 import 'package:blog_app/features/blog/presentation/widgets/blog_editor.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -71,105 +74,132 @@ class _AddNewBlogState extends State<AddNewBlog> {
           IconButton(onPressed: uploadBlog, icon: Icon(Icons.done_rounded)),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                image != null
-                    ? GestureDetector(
-                        onTap: selectImage,
-                        child: SizedBox(
-                          height: 150,
-                          width: double.infinity,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.file(image!, fit: BoxFit.cover),
-                          ),
-                        ),
-                      )
-                    : GestureDetector(
-                        onTap: selectImage,
-                        child: DottedBorder(
-                          options: RoundedRectDottedBorderOptions(
-                            color: AppPallete.borderColor,
-                            dashPattern: [10, 4],
-                            strokeWidth: 2,
-                            radius: Radius.circular(10),
-                          ),
-                          child: SizedBox(
-                            height: 150,
-                            width: double.infinity,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // ICON!
-                                Icon(Icons.folder_open, size: 40),
-                                // SPACE!
-                                SizedBox(height: 15),
-                                // TEXT!
-                                Text(
-                                  'Select your image',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ],
+      body: BlocConsumer<BlogBloc, BlogState>(
+        listener: (context, state) {
+          if (state is BlogError) {
+            showSnackbBar(context, state.message);
+          } else if (state is BlogSuccess) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              BlogPage.route(),
+              (route) => false,
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is BlogLoading) {
+            return CustomLoader();
+          }
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    image != null
+                        ? GestureDetector(
+                            onTap: selectImage,
+                            child: SizedBox(
+                              height: 150,
+                              width: double.infinity,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.file(image!, fit: BoxFit.cover),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-
-                SizedBox(height: 20),
-
-                // CHIPS!
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children:
-                        ['Technology', 'Bussiness', 'Programming', 'Cricket']
-                            .map(
-                              (e) => Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    selectedTopics.contains(e)
-                                        ? selectedTopics.remove(e)
-                                        : selectedTopics.add(e);
-
-                                    setState(() {});
-                                  },
-                                  child: Chip(
-                                    label: Text(e),
-                                    side: const BorderSide(
-                                      color: AppPallete.borderColor,
+                          )
+                        : GestureDetector(
+                            onTap: selectImage,
+                            child: DottedBorder(
+                              options: RoundedRectDottedBorderOptions(
+                                color: AppPallete.borderColor,
+                                dashPattern: [10, 4],
+                                strokeWidth: 2,
+                                radius: Radius.circular(10),
+                              ),
+                              child: SizedBox(
+                                height: 150,
+                                width: double.infinity,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    // ICON!
+                                    Icon(Icons.folder_open, size: 40),
+                                    // SPACE!
+                                    SizedBox(height: 15),
+                                    // TEXT!
+                                    Text(
+                                      'Select your image',
+                                      style: TextStyle(fontSize: 15),
                                     ),
-                                    color: selectedTopics.contains(e)
-                                        ? const WidgetStatePropertyAll(
-                                            AppPallete.gradient1,
-                                          )
-                                        : null,
-                                  ),
+                                  ],
                                 ),
                               ),
-                            )
-                            .toList(),
-                  ),
+                            ),
+                          ),
+
+                    SizedBox(height: 20),
+
+                    // CHIPS!
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children:
+                            [
+                                  'Technology',
+                                  'Bussiness',
+                                  'Programming',
+                                  'Cricket',
+                                ]
+                                .map(
+                                  (e) => Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        selectedTopics.contains(e)
+                                            ? selectedTopics.remove(e)
+                                            : selectedTopics.add(e);
+
+                                        setState(() {});
+                                      },
+                                      child: Chip(
+                                        label: Text(e),
+                                        side: const BorderSide(
+                                          color: AppPallete.borderColor,
+                                        ),
+                                        color: selectedTopics.contains(e)
+                                            ? const WidgetStatePropertyAll(
+                                                AppPallete.gradient1,
+                                              )
+                                            : null,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                      ),
+                    ),
+
+                    // INPUTS!
+                    BlogEditor(
+                      controller: titleController,
+                      hintText: 'Blog title',
+                    ),
+
+                    SizedBox(height: 10),
+
+                    BlogEditor(
+                      controller: titleController,
+                      hintText: 'Blog Content',
+                      
+                    ),
+                  ],
                 ),
-
-                // INPUTS!
-                BlogEditor(controller: titleController, hintText: 'Blog title'),
-
-                SizedBox(height: 10),
-
-                BlogEditor(
-                  controller: titleController,
-                  hintText: 'Blog Content',
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

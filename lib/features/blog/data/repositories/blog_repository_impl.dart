@@ -10,11 +10,10 @@ import 'package:fpdart/fpdart.dart';
 import 'package:uuid/uuid.dart';
 
 class BlogRepositoryImpl implements BlogRepository {
-  final BlogRemoteDatasourceImpl _blogRemoteDatasourceImpl;
+  final BlogRemoteDatasource _blogRemoteDatasourceImpl;
 
-  BlogRepositoryImpl({
-    required BlogRemoteDatasourceImpl blogRemoteDatasourceImpl,
-  }) : _blogRemoteDatasourceImpl = blogRemoteDatasourceImpl;
+  BlogRepositoryImpl({required BlogRemoteDatasource blogRemoteDatasource})
+    : _blogRemoteDatasourceImpl = blogRemoteDatasource;
 
   @override
   Future<Either<Failure, BlogEntity>> uploadBlog({

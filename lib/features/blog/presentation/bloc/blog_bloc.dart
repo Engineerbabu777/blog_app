@@ -36,7 +36,7 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
         emit(BlogError(message: error.message.toString()));
       },
       (success) {
-        emit(BlogSuccess(blog: success));
+        emit(BlogSuccess());
       },
     );
   }
