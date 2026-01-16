@@ -34,10 +34,10 @@ class BlogModel extends BlogEntity {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'posterId': posterId,
+      'poster_id': posterId,
       'title': title,
       'content': content,
-      'imageUrl': imageUrl,
+      'image_url': imageUrl,
       'topics': topics,
       'updated_at': updatedAt.toIso8601String(),
     };
@@ -46,10 +46,10 @@ class BlogModel extends BlogEntity {
   factory BlogModel.fromMap(Map<String, dynamic> map) {
     return BlogModel(
       id: map['id'] as String,
-      posterId: map['posterId'] as String,
+      posterId: map['poster_id'] as String,
       title: map['title'] as String,
       content: map['content'] as String,
-      imageUrl: map['imageUrl'] as String,
+      imageUrl: map['image_url'] as String,
       topics: List<String>.from(map['topics'] ?? []),
       updatedAt: map['updated_at'] != null
           ? DateTime.parse(map['updated_at'])
