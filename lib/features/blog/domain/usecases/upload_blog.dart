@@ -16,7 +16,7 @@ class UploadBlogUseCase implements UseCase<BlogEntity, UploadBlogParams> {
   Future<Either<Failure, BlogEntity>> call(UploadBlogParams params) async {
     return await _blogRepository.uploadBlog(
       content: params.content,
-      title: params.content,
+      title: params.title,
       image: params.image,
       posterId: params.posterId,
       topics: params.topics,
