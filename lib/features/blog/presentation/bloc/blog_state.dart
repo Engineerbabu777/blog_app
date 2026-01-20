@@ -13,8 +13,10 @@ final class BlogError extends BlogState {
   BlogError({required this.message});
 }
 
-final class BlogSuccess extends BlogState {
+final class BlogDisplaySuccess extends BlogState {
   final List<BlogEntity> blogs;
 
-  BlogSuccess({required this.blogs});
+  BlogDisplaySuccess({required this.blogs});
 }
+
+final class BlogUploadSuccess extends BlogState {}

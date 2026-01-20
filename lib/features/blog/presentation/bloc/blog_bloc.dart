@@ -42,7 +42,7 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
         emit(BlogError(message: error.message.toString()));
       },
       (success) {
-        emit(BlogSuccess(blogs: const []));
+        emit(BlogUploadSuccess());
       },
     );
   }
@@ -55,7 +55,9 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
         emit(BlogError(message: error.message.toString()));
       },
       (success) {
-        emit(BlogSuccess(blogs: success));
+        print("Blogs $success");
+
+        emit(BlogDisplaySuccess(blogs: success));
       },
     );
   }

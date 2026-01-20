@@ -59,6 +59,8 @@ class BlogRemoteDatasourceImpl implements BlogRemoteDatasource {
           .from("blogs")
           .select("*, profiles(name)");
 
+      print("DAA: $blogsData");
+
       return blogsData
           .map(
             (blog) => BlogModel.fromJson(

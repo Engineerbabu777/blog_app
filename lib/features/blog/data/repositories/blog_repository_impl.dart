@@ -62,7 +62,9 @@ class BlogRepositoryImpl implements BlogRepository {
     try {
       final blogs = await _blogRemoteDatasourceImpl.getAllBlogs();
 
-      return right(blogs);
+      print("BLOGGS $blogs");
+
+      return Right(blogs);
     } on ServerException catch (e) {
       return Left(
         Failure(

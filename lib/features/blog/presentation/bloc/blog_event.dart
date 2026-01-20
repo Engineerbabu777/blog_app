@@ -19,24 +19,4 @@ final class BlogUploadEvent extends BlogEvent {
   });
 }
 
-final class GetAllBlogsEvent extends BlogEvent {
-  final String id;
-  final String posterId;
-  final String title;
-  final String content;
-  final String imageUrl;
-  final List<String> topics;
-  final DateTime updatedAt;
-  final String? posterName;
-
-  GetAllBlogsEvent({
-    required this.id,
-    required this.posterId,
-    required this.title,
-    required this.content,
-    required this.imageUrl,
-    required this.topics,
-    required this.updatedAt,
-    required this.posterName,
-  });
-}
+final class GetAllBlogsEvent extends BlogEvent {}
