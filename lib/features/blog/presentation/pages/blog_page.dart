@@ -54,7 +54,7 @@ class _BlogPageState extends State<BlogPage> {
               itemBuilder: (context, index) {
                 return BlogCard(
                   blog: state.blogs[index],
-                  color: AppPallete.gradient1,
+                  color: index % 2 == 0 ? AppPallete.gradient1 :  AppPallete.gradient2 ,
                 );
               },
               itemCount: state.blogs.length,

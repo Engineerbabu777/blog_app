@@ -1,4 +1,5 @@
 import 'package:blog_app/core/theme/app_pallete.dart';
+import 'package:blog_app/core/utils/calculate_reading_time.dart';
 import 'package:blog_app/features/blog/domain/entities/blog_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class BlogCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 200,
-      margin: EdgeInsets.all(16.0),
+      margin: EdgeInsets.all(16.0).copyWith(bottom: 4),
       padding: EdgeInsets.all(16.0),
 
       decoration: BoxDecoration(
@@ -23,7 +24,7 @@ class BlogCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
 
             children: [
               SingleChildScrollView(
@@ -56,7 +57,7 @@ class BlogCard extends StatelessWidget {
           ),
 
           // SizedBox(height: 60),
-          Text("1 min"),
+          Text('${calculateReadingTime(blog.content)} mins'),
         ],
       ),
     );
