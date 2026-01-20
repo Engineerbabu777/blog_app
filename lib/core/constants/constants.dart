@@ -5,4 +5,6 @@ class Constants {
     'Programming',
     'Cricket',
   ];
+
+  static const noConnectionErrorMessage = "No Connection Error";
 }
