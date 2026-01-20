@@ -1,6 +1,7 @@
 import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/core/utils/calculate_reading_time.dart';
 import 'package:blog_app/features/blog/domain/entities/blog_entity.dart';
+import 'package:blog_app/features/blog/presentation/pages/blog_viewer_page.dart';
 import 'package:flutter/material.dart';
 
 class BlogCard extends StatelessWidget {
@@ -10,55 +11,60 @@ class BlogCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      margin: EdgeInsets.all(16.0).copyWith(bottom: 4),
-      padding: EdgeInsets.all(16.0),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, BlogViewerPage.route());
+      },
+      child: Container(
+        height: 200,
+        margin: EdgeInsets.all(16.0).copyWith(bottom: 4),
+        padding: EdgeInsets.all(16.0),
 
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
 
-            children: [
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: blog.topics
-                      .map(
-                        (e) => Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Chip(
-                              label: Text(e),
-                              side: const BorderSide(
-                                color: AppPallete.borderColor,
+              children: [
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: blog.topics
+                        .map(
+                          (e) => Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Chip(
+                                label: Text(e),
+                                side: const BorderSide(
+                                  color: AppPallete.borderColor,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                      .toList(),
+                        )
+                        .toList(),
+                  ),
                 ),
-              ),
 
-              Text(
-                blog.title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-              ),
-            ],
-          ),
+                Text(
+                  blog.title,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                ),
+              ],
+            ),
 
-          // SizedBox(height: 60),
-          Text('${calculateReadingTime(blog.content)} mins'),
-        ],
+            // SizedBox(height: 60),
+            Text('${calculateReadingTime(blog.content)} mins'),
+          ],
+        ),
       ),
     );
   }
