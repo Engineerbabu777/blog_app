@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:blog_app/core/error/exception.dart';
 import 'package:blog_app/core/error/failure.dart';
+import 'package:blog_app/core/network/connection_checker.dart';
+import 'package:blog_app/features/blog/data/datasources/blog_local_datasource.dart';
 import 'package:blog_app/features/blog/data/datasources/blog_remote_datasource.dart';
 import 'package:blog_app/features/blog/data/models/blog_model.dart';
 import 'package:blog_app/features/blog/domain/entities/blog_entity.dart';
@@ -11,9 +13,16 @@ import 'package:uuid/uuid.dart';
 
 class BlogRepositoryImpl implements BlogRepository {
   final BlogRemoteDatasource _blogRemoteDatasourceImpl;
+  final ConnectionChecker _connectionChecker;
+  final BlogLocalDatasource _blogLocalDatasource;
 
-  BlogRepositoryImpl({required BlogRemoteDatasource blogRemoteDatasource})
-    : _blogRemoteDatasourceImpl = blogRemoteDatasource;
+  BlogRepositoryImpl({
+    required BlogRemoteDatasource blogRemoteDatasource,
+    required ConnectionChecker connectionChecker,
+    required BlogLocalDatasource blogLocalDatasource,
+  }) : _blogRemoteDatasourceImpl = blogRemoteDatasource,
+       _connectionChecker = connectionChecker,
+       _blogLocalDatasource = blogLocalDatasource;
 
   @override
   Future<Either<Failure, BlogEntity>> uploadBlog({
@@ -60,9 +69,16 @@ class BlogRepositoryImpl implements BlogRepository {
   @override
   Future<Either<Failure, List<BlogEntity>>> getAllBlogs() async {
     try {
+      if (!await (_connectionChecker.isConnected)) {
+        // GET FROM HIVE!
+        final blogs = _blogLocalDatasource.loadBlogs();
+
+        return Right(blogs);
+      }
       final blogs = await _blogRemoteDatasourceImpl.getAllBlogs();
 
-      print("BLOGGS $blogs");
+      // SAVE TO HIVE1
+      _blogLocalDatasource.uploadLocalBlogs(blogs: blogs);
 
       return Right(blogs);
     } on ServerException catch (e) {
