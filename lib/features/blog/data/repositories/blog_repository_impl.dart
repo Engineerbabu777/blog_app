@@ -58,7 +58,19 @@ class BlogRepositoryImpl implements BlogRepository {
   }
 
   @override
-  Future<Either<Failure, List<BlogEntity>>> getAllBlogs() {
-    throw UnimplementedError();
+  Future<Either<Failure, List<BlogEntity>>> getAllBlogs() async {
+    try {
+      final blogs = await _blogRemoteDatasourceImpl.getAllBlogs();
+
+      return right(blogs);
+    } on ServerException catch (e) {
+      return Left(
+        Failure(
+          e.message.isNotEmpty
+              ? e.message.toString()
+              : "An unexpected error occur in fetching blogs",
+        ),
+      );
+    }
   }
 }
