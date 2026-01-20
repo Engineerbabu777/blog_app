@@ -84,10 +84,6 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await fn();
 
       return Right(user);
-    } on sb.AuthException catch (e) {
-      return Left(
-        Failure(e.message.isNotEmpty ? e.message : "An unknown error occurred"),
-      );
     } on ServerException catch (e) {
       return Left(
         Failure(e.message.isNotEmpty ? e.message : "An unknown error occurred"),

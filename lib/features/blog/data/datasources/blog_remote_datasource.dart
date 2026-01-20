@@ -31,6 +31,8 @@ class BlogRemoteDatasourceImpl implements BlogRemoteDatasource {
           .single();
 
       return BlogModel.fromJson(blogData);
+    } on PostgrestException catch (e) {
+      throw ServerException(e.message);
     } catch (e) {
       print('Error during blog creation: $e'); // Debugging line
       throw ServerException(e.toString());
@@ -46,6 +48,8 @@ class BlogRemoteDatasourceImpl implements BlogRemoteDatasource {
       await supabaseClient.storage.from("blog_images").upload(blog.id, image);
 
       return supabaseClient.storage.from('blog_images').getPublicUrl(blog.id);
+    } on StorageException catch (e) {
+      throw ServerException(e.message);
     } catch (e) {
       print('Error during blog image uploading: $e'); // Debugging line
       throw ServerException(e.toString());
@@ -68,6 +72,8 @@ class BlogRemoteDatasourceImpl implements BlogRemoteDatasource {
             ).copyWith(posterName: blog['profiles']['name']),
           )
           .toList();
+    } on PostgrestException catch (e) {
+      throw ServerException(e.message);
     } catch (e) {
       print('Error during blogs fetching: $e'); // Debugging line
       throw ServerException(e.toString());

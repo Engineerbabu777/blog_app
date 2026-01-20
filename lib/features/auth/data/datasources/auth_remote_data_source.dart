@@ -1,6 +1,7 @@
 import 'package:blog_app/core/error/exception.dart';
 import 'package:blog_app/features/auth/data/models/user_models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 abstract interface class AuthRemoteDataSource {
   Session? get currentUserSession;
@@ -47,6 +48,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       print('User JSON: $userJson'); // Debugging line
 
       return UserModels.fromJson(userJson);
+    } on sb.AuthException catch (e) {
+      throw ServerException(e.message);
     } catch (e) {
       print('Error during sign up: $e'); // Debugging line
       throw ServerException(e.toString());
@@ -72,6 +75,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       print('User JSON: $userJson'); // Debugging line
 
       return UserModels.fromJson(userJson);
+    } on sb.AuthException catch (e) {
+      throw ServerException(e.message);
     } catch (e) {
       print('Error during sign in: $e'); // Debugging line
       throw ServerException(e.toString());
