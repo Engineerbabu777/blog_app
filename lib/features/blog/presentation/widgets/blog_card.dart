@@ -1,10 +1,64 @@
+import 'package:blog_app/core/theme/app_pallete.dart';
+import 'package:blog_app/features/blog/domain/entities/blog_entity.dart';
 import 'package:flutter/material.dart';
 
 class BlogCard extends StatelessWidget {
-  const BlogCard({super.key});
+  final BlogEntity blog;
+  final Color color;
+  const BlogCard({super.key, required this.blog, required this.color});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      height: 200,
+      margin: EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.0),
+
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+
+            children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: blog.topics
+                      .map(
+                        (e) => Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Chip(
+                              label: Text(e),
+                              side: const BorderSide(
+                                color: AppPallete.borderColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+
+              Text(
+                blog.title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+              ),
+            ],
+          ),
+
+          // SizedBox(height: 60),
+          Text("1 min"),
+        ],
+      ),
+    );
   }
 }

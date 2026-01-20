@@ -1,7 +1,9 @@
 import 'package:blog_app/core/common/widgets/loader.dart';
+import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/core/utils/show_snackbar.dart';
 import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:blog_app/features/blog/presentation/pages/add_new_blog.dart';
+import 'package:blog_app/features/blog/presentation/widgets/blog_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,12 +52,10 @@ class _BlogPageState extends State<BlogPage> {
           if (state is BlogDisplaySuccess) {
             return ListView.builder(
               itemBuilder: (context, index) {
-                final blog = state.blogs[index];
-
-                print("AAA $blog");
-                print("BBBB $state");
-
-                return Text(blog.title);
+                return BlogCard(
+                  blog: state.blogs[index],
+                  color: AppPallete.gradient1,
+                );
               },
               itemCount: state.blogs.length,
             );
