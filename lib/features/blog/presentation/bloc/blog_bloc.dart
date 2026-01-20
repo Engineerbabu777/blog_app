@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:blog_app/features/blog/domain/entities/blog_entity.dart';
+import 'package:blog_app/features/blog/domain/usecases/get_all_blogs.dart';
 import 'package:blog_app/features/blog/domain/usecases/upload_blog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,10 +11,14 @@ part 'blog_state.dart';
 
 class BlogBloc extends Bloc<BlogEvent, BlogState> {
   final UploadBlogUseCase _uploadBlogUseCase;
+  final GetAllBlogs _allBlogs;
 
-  BlogBloc({required UploadBlogUseCase uploadBlogUseCase})
-    : _uploadBlogUseCase = uploadBlogUseCase,
-      super(BlogInitial()) {
+  BlogBloc({
+    required UploadBlogUseCase uploadBlogUseCase,
+    required GetAllBlogs getAllBlogs,
+  }) : _uploadBlogUseCase = uploadBlogUseCase,
+       _allBlogs = getAllBlogs,
+       super(BlogInitial()) {
     on<BlogEvent>((event, emit) {
       emit(BlogLoading());
     });
@@ -40,4 +45,6 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
       },
     );
   }
+
+  
 }
