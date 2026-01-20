@@ -56,4 +56,9 @@ class BlogRepositoryImpl implements BlogRepository {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, List<BlogEntity>>> getAllBlogs() {
+    throw UnimplementedError();
+  }
 }
