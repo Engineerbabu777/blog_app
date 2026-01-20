@@ -11,11 +11,11 @@ part 'blog_state.dart';
 
 class BlogBloc extends Bloc<BlogEvent, BlogState> {
   final UploadBlogUseCase _uploadBlogUseCase;
-  final GetAllBlogs _allBlogs;
+  final GetAllBlogsUseCase _allBlogs;
 
   BlogBloc({
     required UploadBlogUseCase uploadBlogUseCase,
-    required GetAllBlogs getAllBlogs,
+    required GetAllBlogsUseCase getAllBlogs,
   }) : _uploadBlogUseCase = uploadBlogUseCase,
        _allBlogs = getAllBlogs,
        super(BlogInitial()) {
@@ -23,6 +23,7 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
       emit(BlogLoading());
     });
     on<BlogUploadEvent>(_onBlogUpload);
+    on<GetAllBlogsEvent>(_fetchAllBlogs);
   }
 
   void _onBlogUpload(BlogUploadEvent event, Emitter<BlogState> emit) async {
@@ -41,10 +42,21 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
         emit(BlogError(message: error.message.toString()));
       },
       (success) {
-        emit(BlogSuccess());
+        emit(BlogSuccess(blogs: const []));
       },
     );
   }
 
-  
+  void _fetchAllBlogs(GetAllBlogsEvent event, Emitter<BlogState> emit) async {
+    final res = await _allBlogs.call(NoParams());
+
+    res.fold(
+      (error) {
+        emit(BlogError(message: error.message.toString()));
+      },
+      (success) {
+        emit(BlogSuccess(blogs: success));
+      },
+    );
+  }
 }

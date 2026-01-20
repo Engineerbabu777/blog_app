@@ -4,10 +4,10 @@ import 'package:blog_app/features/blog/domain/entities/blog_entity.dart';
 import 'package:blog_app/features/blog/domain/repository/blog_repository.dart';
 import 'package:fpdart/src/either.dart';
 
-class GetAllBlogs implements UseCase<List<BlogEntity>, NoParams> {
+class GetAllBlogsUseCase implements UseCase<List<BlogEntity>, NoParams> {
   final BlogRepository _blogRepository;
 
-  GetAllBlogs({required BlogRepository blogRepository})
+  GetAllBlogsUseCase({required BlogRepository blogRepository})
     : _blogRepository = blogRepository;
 
   @override

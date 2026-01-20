@@ -14,5 +14,7 @@ final class BlogError extends BlogState {
 }
 
 final class BlogSuccess extends BlogState {
+  final List<BlogEntity> blogs;
 
+  BlogSuccess({required this.blogs});
 }
